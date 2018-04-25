@@ -25,6 +25,9 @@ public class MyUserDetailsService implements UserDetailsService {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
 
+    /**
+     * 密码加密器
+     */
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -46,6 +49,9 @@ public class MyUserDetailsService implements UserDetailsService {
 
 
 
+        /*
+          返回的是查询出来的用户信息，此信息的password会与请求中的密码比对。此时库中密码为1111
+         */
         return new User(username,password,
                 true,true,true,true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));

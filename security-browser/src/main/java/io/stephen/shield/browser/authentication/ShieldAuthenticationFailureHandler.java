@@ -1,6 +1,7 @@
 package io.stephen.shield.browser.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.stephen.shield.browser.support.SimpleResponse;
 import io.stephen.shield.core.properties.LoginType;
 import io.stephen.shield.core.properties.SecurityProperties;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class ShieldAuthenticationFailureHandler  extends SimpleUrlAuthentication
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())){
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(exception));
+            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
         }else{
             super.onAuthenticationFailure(request,response,exception);      // 走父类处理方法
         }

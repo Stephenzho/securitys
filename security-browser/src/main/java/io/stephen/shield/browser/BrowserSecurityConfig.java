@@ -1,6 +1,7 @@
 package io.stephen.shield.browser;
 
 import io.stephen.shield.core.properties.SecurityProperties;
+import io.stephen.shield.core.validate.code.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author zhoushuyi
@@ -40,7 +42,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.formLogin()
+        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+        validateCodeFilter.setAuthenticationFailureHandler(shieldAuthenticationFailureHandler);
+
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)        // 将图片验证码过滤器添加到账户密码过滤器前
+                .formLogin()
                 .loginPage("/authentication/required")  // 指定登陆页面
                 .loginProcessingUrl("/authentication/form")  //指定登陆请求接口，与html中登陆对应
                 .successHandler(shieldAuthenticationSuccessHandler)     //指定登陆成功处理
@@ -48,6 +54,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/required",
+                        "/code/image",
                         securityProperties.getBrowser().getLoginPage()).permitAll()    // 当访问matchers页面时允许通过。
                 .anyRequest()           // 所有的请求
                 .authenticated()        // 都需要验证
