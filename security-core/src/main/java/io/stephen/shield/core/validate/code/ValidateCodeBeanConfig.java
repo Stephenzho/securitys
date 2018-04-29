@@ -4,8 +4,6 @@ import io.stephen.shield.core.properties.SecurityProperties;
 import io.stephen.shield.core.validate.code.image.ImageCodeGenerator;
 import io.stephen.shield.core.validate.code.sms.DefaultSmsCodeSender;
 import io.stephen.shield.core.validate.code.sms.SmsCodeSender;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +22,8 @@ public class ValidateCodeBeanConfig {
 
     /**
      * 图片验证码图片生成器
+     *
+     * 若容器中没有name=imageValidateCodeGenerator的bean则加载此bean
      * @return
      */
     @Bean
@@ -36,6 +36,8 @@ public class ValidateCodeBeanConfig {
 
     /**
      * 短信验证码发送器
+     *
+     * 若容器中没有实现SmsCodeSender的bean则加载此bean
      * @return
      */
     @Bean
