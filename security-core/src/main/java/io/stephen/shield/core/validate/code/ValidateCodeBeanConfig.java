@@ -1,6 +1,9 @@
 package io.stephen.shield.core.validate.code;
 
 import io.stephen.shield.core.properties.SecurityProperties;
+import io.stephen.shield.core.validate.code.image.ImageCodeGenerator;
+import io.stephen.shield.core.validate.code.sms.DefaultSmsCodeSender;
+import io.stephen.shield.core.validate.code.sms.SmsCodeSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,27 +18,29 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ValidateCodeBeanConfig {
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private SecurityProperties securityProperties;
 
     /**
-     * 添加默认图形验证码生成器
-     * ConditionalOnMissingBean注解在容器中没找到name的bean时才会加载此bean
+     * 图片验证码图片生成器
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean(name = "imageCodeGenerator")
+    @ConditionalOnMissingBean(name = "imageValidateCodeGenerator")
     public ValidateCodeGenerator imageValidateCodeGenerator() {
-        ImageCodeGenerator imageCodeGenerator = new ImageCodeGenerator();
-        imageCodeGenerator.setSecurityProperties(securityProperties);
+        ImageCodeGenerator codeGenerator = new ImageCodeGenerator();
+        codeGenerator.setSecurityProperties(securityProperties);
+        return codeGenerator;
+    }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("加载默认图形验证码生成器");
-        }
-
-
-        return imageCodeGenerator;
+    /**
+     * 短信验证码发送器
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean(SmsCodeSender.class)
+    public SmsCodeSender smsCodeSender() {
+        return new DefaultSmsCodeSender();
     }
 }

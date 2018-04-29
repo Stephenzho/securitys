@@ -1,7 +1,7 @@
 1.引入依赖(pom.xml)
 <dependency>
-	<groupId>com.imooc.security</groupId>
-	<artifactId>imooc-security-browser</artifactId>
+	<groupId>io.stephen.shield</groupId>
+	<artifactId>shield-browser</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 </dependency>
 

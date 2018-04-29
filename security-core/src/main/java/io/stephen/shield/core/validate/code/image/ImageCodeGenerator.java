@@ -1,10 +1,11 @@
-package io.stephen.shield.core.validate.code;
+package io.stephen.shield.core.validate.code.image;
 
 import io.stephen.shield.core.properties.SecurityProperties;
+import io.stephen.shield.core.validate.code.ValidateCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.context.request.ServletWebRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -17,14 +18,20 @@ import java.util.Random;
  */
 public class ImageCodeGenerator implements ValidateCodeGenerator {
 
+    /**
+     * 系统配置
+     */
     @Autowired
     private SecurityProperties securityProperties;
 
-    @Override
-    public ImageCode generate(HttpServletRequest request) {
-        int width = ServletRequestUtils.getIntParameter(request, "width", securityProperties.getCode().getImage().getWidth());
-        int height = ServletRequestUtils.getIntParameter(request, "height", securityProperties.getCode().getImage().getHeight());
 
+
+    @Override
+    public ImageCode generate(ServletWebRequest request) {
+        int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width",
+                securityProperties.getCode().getImage().getWidth());
+        int height = ServletRequestUtils.getIntParameter(request.getRequest(), "height",
+                securityProperties.getCode().getImage().getHeight());
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         Graphics g = image.getGraphics();
@@ -56,8 +63,6 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
         return new ImageCode(image, sRand, securityProperties.getCode().getImage().getExpireIn());
     }
 
-
-
     /**
      * 生成随机背景条纹
      *
@@ -79,7 +84,6 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
         return new Color(r, g, b);
     }
 
-
     public SecurityProperties getSecurityProperties() {
         return securityProperties;
     }
@@ -87,4 +91,6 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
     public void setSecurityProperties(SecurityProperties securityProperties) {
         this.securityProperties = securityProperties;
     }
+
+
 }

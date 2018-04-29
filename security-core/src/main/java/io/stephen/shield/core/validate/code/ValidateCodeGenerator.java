@@ -1,6 +1,6 @@
 package io.stephen.shield.core.validate.code;
 
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.context.request.ServletWebRequest;
 
 /**
  * 图形验证码生成器接口，用户可实现此接口以覆盖默认实现。
@@ -9,5 +9,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface ValidateCodeGenerator {
 
-    ImageCode generate(HttpServletRequest request);
+    /**
+     * 生成校验码
+     * @param request
+     * @return
+     */
+    ValidateCode generate(ServletWebRequest request);
 }

@@ -6,7 +6,7 @@ package io.stephen.shield.core.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author zhailiang
+ * @author zhoushuyi
  *
  */
 @ConfigurationProperties(prefix = "shield")
