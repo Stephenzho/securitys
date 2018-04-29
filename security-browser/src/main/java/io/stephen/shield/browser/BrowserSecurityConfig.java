@@ -44,6 +44,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
         ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
         validateCodeFilter.setAuthenticationFailureHandler(shieldAuthenticationFailureHandler);
+        validateCodeFilter.setSecurityProperties(securityProperties);
+        validateCodeFilter.afterPropertiesSet();
 
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)        // 将图片验证码过滤器添加到账户密码过滤器前
                 .formLogin()

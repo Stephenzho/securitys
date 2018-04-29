@@ -57,13 +57,11 @@ public class BrowserSecurityController {
         // 拿到引发到此的请求
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
-        logger.info("进来了");
-        logger.info(savedRequest.toString());
+        logger.info("此请求是："+savedRequest.toString());
 
         if (null != savedRequest) {
             String redirectUrl = savedRequest.getRedirectUrl();
 
-            logger.info("引发跳转的请求是：" + redirectUrl);
 
             // 判断引发跳转的请求是否为html结尾
             if (StringUtils.endsWithIgnoreCase(redirectUrl, ".html")) {

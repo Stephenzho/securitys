@@ -14,6 +14,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,27 +35,18 @@ public class UserController {
 
 
 
+    @GetMapping("/me")
+    public Object getCurrentUser(@AuthenticationPrincipal UserDetails user)  {
+
+        return user;
+    }
+
     @PostMapping("/regist")
     public void regist(User user, HttpServletRequest request) {
 
         //不管是注册用户还是绑定用户，都会拿到一个用户唯一标识。
         String userId = user.getUsername();
 
-    }
-
-    @GetMapping("/me")
-    public Object getCurrentUser(Authentication user, HttpServletRequest request) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException, UnsupportedEncodingException {
-
-//		String token = StringUtils.substringAfter(request.getHeader("Authorization"), "bearer ");
-//
-//		Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth2().getJwtSigningKey().getBytes("UTF-8"))
-//					.parseClaimsJws(token).getBody();
-//
-//		String company = (String) claims.get("company");
-//
-//		System.out.println(company);
-
-        return user;
     }
 
     @PostMapping
@@ -110,6 +103,7 @@ public class UserController {
     public User getInfo(@ApiParam("用户id") @PathVariable String id) {
         System.out.println("进入getInfo服务");
         User user = new User();
+        user.setId(id);
         user.setUsername("tom");
         return user;
     }
