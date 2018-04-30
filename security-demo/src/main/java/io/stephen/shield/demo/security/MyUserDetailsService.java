@@ -1,14 +1,16 @@
-package io.stephen.shield.browser;
+package io.stephen.shield.demo.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.security.SocialUser;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,7 +22,7 @@ import org.springframework.stereotype.Component;
  * @since 2018/4/22
  */
 @Component
-public class MyUserDetailsService implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService, SocialUserDetailsService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -41,18 +43,27 @@ public class MyUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        // 对密码加密
-        String password = passwordEncoder.encode("1111");
-
-        logger.info(username+" 用户登陆了,加密后的密码："+password);
-
-
+        logger.info(username+" 表单登陆用户");
 
         /*
           返回的是查询出来的用户信息，此信息的password会与请求中的密码比对。此时库中密码为1111
          */
-        return new User(username,password,
+        return buildUser(username);
+    }
+
+    @Override
+    public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
+        logger.info(userId+" 社交登陆用户");
+
+        return buildUser(userId);
+    }
+
+    private SocialUserDetails buildUser(String userId) {
+
+        // 对密码加密
+        String password = passwordEncoder.encode("1111");
+
+        return new SocialUser(userId,password,
                 true,true,true,true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
     }

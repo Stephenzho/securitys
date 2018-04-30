@@ -1,6 +1,7 @@
 package io.stephen.shield.browser;
 
 import io.stephen.shield.browser.support.SimpleResponse;
+import io.stephen.shield.core.properties.SecurityConstants;
 import io.stephen.shield.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -50,14 +51,14 @@ public class BrowserSecurityController {
      * @param response
      * @return
      */
-    @RequestMapping("/authentication/required")
+    @RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         // 拿到引发到此的请求
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
-        logger.info("此请求是："+savedRequest.toString());
+        logger.info("引发跳转的请求："+savedRequest.toString());
 
         if (null != savedRequest) {
             String redirectUrl = savedRequest.getRedirectUrl();

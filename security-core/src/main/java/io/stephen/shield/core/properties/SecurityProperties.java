@@ -15,11 +15,20 @@ public class SecurityProperties {
 	/**
 	 * 浏览器环境配置
 	 */
-	public BrowserProperties browser = new BrowserProperties();
-
+	private BrowserProperties browser = new BrowserProperties();
 
 	private ValidateCodeProperties code = new ValidateCodeProperties();
 
+	private SocialProperties social = new SocialProperties();
+
+
+	public SocialProperties getSocial() {
+		return social;
+	}
+
+	public void setSocial(SocialProperties social) {
+		this.social = social;
+	}
 
 	public ValidateCodeProperties getCode() {
 		return code;

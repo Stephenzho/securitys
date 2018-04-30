@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -42,6 +43,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private FormAuthenticationConfig formAuthenticationConfig;
 
+    @Autowired
+    private SpringSocialConfigurer springSocialConfigurer;
+
     /**
      * 用户密码加密类，处理用户密码加解密
      * @return
@@ -68,10 +72,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
         formAuthenticationConfig.configure(http);
 
-        http.apply(validateCodeSecurityConfig)
-                    .and()
-                .apply(smsCodeAuthenticationSecurityConfig)
-                    .and()
+        http.apply(validateCodeSecurityConfig).and()
+
+                .apply(smsCodeAuthenticationSecurityConfig).and()
+
+                .apply(springSocialConfigurer).and()
+
                 .rememberMe()                                             //配置记住我功能
                     .tokenRepository(persistentTokenRepository())
                     .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
