@@ -1,7 +1,7 @@
-package io.stephen.shield.core.social.connet;
+package io.stephen.shield.core.social.qq.connet;
 
-import io.stephen.shield.core.social.api.QQ;
-import io.stephen.shield.core.social.api.QQUserInfo;
+import io.stephen.shield.core.social.qq.api.QQ;
+import io.stephen.shield.core.social.qq.api.QQUserInfo;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;

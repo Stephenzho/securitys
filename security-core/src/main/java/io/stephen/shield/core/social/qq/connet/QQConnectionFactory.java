@@ -1,6 +1,6 @@
-package io.stephen.shield.core.social.connet;
+package io.stephen.shield.core.social.qq.connet;
 
-import io.stephen.shield.core.social.api.QQ;
+import io.stephen.shield.core.social.qq.api.QQ;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 
 /**

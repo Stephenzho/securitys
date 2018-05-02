@@ -1,4 +1,4 @@
-package io.stephen.shield.core.social.api;
+package io.stephen.shield.core.social.qq.api;
 
 /**
  * @author zhoushuyi

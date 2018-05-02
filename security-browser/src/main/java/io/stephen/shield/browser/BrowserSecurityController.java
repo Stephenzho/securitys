@@ -1,6 +1,7 @@
 package io.stephen.shield.browser;
 
 import io.stephen.shield.browser.support.SimpleResponse;
+import io.stephen.shield.browser.support.SocialUserInfo;
 import io.stephen.shield.core.properties.SecurityConstants;
 import io.stephen.shield.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
@@ -13,9 +14,14 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.web.ProviderSignInUtils;
+import org.springframework.social.security.SocialAuthenticationFilter;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,6 +50,8 @@ public class BrowserSecurityController {
     @Autowired
     private SecurityProperties securityProperties;
 
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
 
     /**
      * 当需要身份认证时跳转到这里
@@ -66,7 +74,7 @@ public class BrowserSecurityController {
 
             // 判断引发跳转的请求是否为html结尾
             if (StringUtils.endsWithIgnoreCase(redirectUrl, ".html")) {
-                redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
+                redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getSignInPage());
             }
 
         }
@@ -75,6 +83,22 @@ public class BrowserSecurityController {
     }
 
 
+    @GetMapping(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
+    public SocialUserInfo getSocialUserInfo(HttpServletRequest request) {
+        SocialUserInfo socialUserInfo = new SocialUserInfo();
+        Connection<?> connection =  providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
+        socialUserInfo.setProviderId(connection.getKey().getProviderId());
+        socialUserInfo.setNickname(connection.getDisplayName());
+        socialUserInfo.setProviderUserId(connection.getKey().getProviderUserId());
+        socialUserInfo.setHeadimg(connection.getImageUrl());
+        return socialUserInfo;
+    }
+
+    @GetMapping("/session/invalid")
+    public SimpleResponse sessionInvalid(){
+        String message = "session失效";
+        return new SimpleResponse(message);
+    }
 
 
 }

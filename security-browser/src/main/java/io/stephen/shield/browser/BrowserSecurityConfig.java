@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -39,9 +41,15 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+    @Autowired
+    private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
 
     @Autowired
     private FormAuthenticationConfig formAuthenticationConfig;
+
+    @Autowired
+    private InvalidSessionStrategy invalidSessionStrategy;
 
     @Autowired
     private SpringSocialConfigurer springSocialConfigurer;
@@ -83,12 +91,21 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                     .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
                     .userDetailsService(userDetailsService)
                     .and()
+                .sessionManagement()
+                    .invalidSessionStrategy(invalidSessionStrategy)
+                    .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+                    .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+                    .expiredSessionStrategy(sessionInformationExpiredStrategy)
+                    .and().and()
                 .authorizeRequests()
                     .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                             SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
                             SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
                             SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
-                            securityProperties.getBrowser().getLoginPage()).permitAll()    // 当访问matchers页面时允许通过。
+                            securityProperties.getBrowser().getSignInPage(),
+                            securityProperties.getBrowser().getSignUpUrl(),
+                            "/session/invalid",
+                            "/user/regist").permitAll()    // 当访问matchers页面时允许通过。
                     .anyRequest()           // 所有的请求
                     .authenticated()        // 都需要验证
                     .and()

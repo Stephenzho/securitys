@@ -1,4 +1,4 @@
-package io.stephen.shield.core.social.connet;
+package io.stephen.shield.core.social.qq.connet;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

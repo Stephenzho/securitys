@@ -1,8 +1,8 @@
-package io.stephen.shield.core.social.config;
+package io.stephen.shield.core.social.qq.config;
 
 import io.stephen.shield.core.properties.QQProperties;
 import io.stephen.shield.core.properties.SecurityProperties;
-import io.stephen.shield.core.social.connet.QQConnectionFactory;
+import io.stephen.shield.core.social.qq.connet.QQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.social.SocialAutoConfigurerAdapter;

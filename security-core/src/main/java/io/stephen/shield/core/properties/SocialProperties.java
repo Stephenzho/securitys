@@ -9,6 +9,16 @@ public class SocialProperties {
 
     private String filterProcessesUrl = "/auth";
 
+    private WeixinProperties weixin = new WeixinProperties();
+
+
+    public WeixinProperties getWeixin() {
+        return weixin;
+    }
+
+    public void setWeixin(WeixinProperties weixin) {
+        this.weixin = weixin;
+    }
 
     public String getFilterProcessesUrl() {
         return filterProcessesUrl;

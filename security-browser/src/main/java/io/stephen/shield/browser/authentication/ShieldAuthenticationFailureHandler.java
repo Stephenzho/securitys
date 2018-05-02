@@ -37,7 +37,7 @@ public class ShieldAuthenticationFailureHandler  extends SimpleUrlAuthentication
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         logger.info("登陆失败");
 
-        if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())){
+        if (LoginType.JSON.equals(securityProperties.getBrowser().getSignInPage())){
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));

@@ -1,6 +1,4 @@
-package io.stephen.shield.core.social.api;
-
-import java.io.IOException;
+package io.stephen.shield.core.social.qq.api;
 
 /**
  * @author zhoushuyi

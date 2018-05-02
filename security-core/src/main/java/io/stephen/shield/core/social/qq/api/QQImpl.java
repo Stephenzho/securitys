@@ -1,4 +1,4 @@
-package io.stephen.shield.core.social.api;
+package io.stephen.shield.core.social.qq.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.TokenStrategy;
 
-import java.io.IOException;
 
 /**
  * @author zhoushuyi

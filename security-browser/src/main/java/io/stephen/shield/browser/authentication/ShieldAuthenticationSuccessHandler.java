@@ -37,7 +37,7 @@ public class ShieldAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         logger.info("登陆成功");
 
 
-        if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
+        if (LoginType.JSON.equals(securityProperties.getBrowser().getSignInPage())) {
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(authentication));
         }else{
