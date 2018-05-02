@@ -26,7 +26,7 @@ public class SmsCodeGenerator implements ValidateCodeGenerator {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.stephen.shield.core.validate.code.ValidateCodeGenerator#generate(org.
+	 * @see io.stephen.shield.code.validate.code.ValidateCodeGenerator#generate(org.
 	 * springframework.web.context.request.ServletWebRequest)
 	 */
 	@Override

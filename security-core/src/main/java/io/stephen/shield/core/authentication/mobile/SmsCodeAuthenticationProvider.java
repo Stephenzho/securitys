@@ -26,7 +26,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 	 * (non-Javadoc)
 	 * 
 	 * @see org.springframework.security.authentication.AuthenticationProvider#
-	 * authenticate(org.springframework.security.core.Authentication)
+	 * authenticate(org.springframework.security.code.Authentication)
 	 */
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {

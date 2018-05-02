@@ -4,7 +4,7 @@
 package io.stephen.shield.browser.logout;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.stephen.shield.browser.support.SimpleResponse;
+import io.stephen.shield.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 默认的退出成功处理器，如果设置了imooc.security.browser.signOutUrl，则跳到配置的地址上，
+ * 默认的退出成功处理器，如果设置了security.browser.signOutUrl，则跳到配置的地址上，
  * 如果没配置，则返回json格式的响应。
  * 
- * @author zhailiang
+ * @author  zhoushuyi
  *
  */
 public class ShieldLogoutSuccessHandler implements LogoutSuccessHandler {
@@ -40,7 +40,7 @@ public class ShieldLogoutSuccessHandler implements LogoutSuccessHandler {
 	 * @see org.springframework.security.web.authentication.logout.
 	 * LogoutSuccessHandler#onLogoutSuccess(javax.servlet.http.
 	 * HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * org.springframework.security.core.Authentication)
+	 * org.springframework.security.code.Authentication)
 	 */
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)

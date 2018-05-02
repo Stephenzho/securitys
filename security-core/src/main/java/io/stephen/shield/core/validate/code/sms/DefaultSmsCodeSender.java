@@ -18,7 +18,7 @@ public class DefaultSmsCodeSender implements SmsCodeSender {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	/* (non-Javadoc)
-	 * @see io.stephen.shield.core.validate.code.sms.SmsCodeSender#send(java.lang.String, java.lang.String)
+	 * @see io.stephen.shield.code.validate.code.sms.SmsCodeSender#send(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public void send(String mobile, String code) {

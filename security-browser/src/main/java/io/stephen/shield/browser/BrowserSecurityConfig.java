@@ -6,20 +6,16 @@ import io.stephen.shield.core.properties.SecurityConstants;
 import io.stephen.shield.core.properties.SecurityProperties;
 import io.stephen.shield.core.validate.code.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.InvalidSessionStrategy;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
-import javax.sql.DataSource;
 
 /**
  * @author zhoushuyi
@@ -31,8 +27,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -43,7 +37,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
     @Autowired
     private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
-
+    @Autowired
+    private LogoutSuccessHandler shieldLogoutSuccessHandler;
 
     @Autowired
     private FormAuthenticationConfig formAuthenticationConfig;
@@ -54,26 +49,10 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SpringSocialConfigurer springSocialConfigurer;
 
-    /**
-     * 用户密码加密类，处理用户密码加解密
-     * @return
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    @Autowired
+    public PersistentTokenRepository persistentTokenRepository;
 
-    /**
-     * 记住我功能配置
-     * @return
-     */
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
-        jdbcTokenRepository.setDataSource(dataSource);
-    //    jdbcTokenRepository.setCreateTableOnStartup(true);        // 第一次启动时创建表。再次启动时注掉
-        return jdbcTokenRepository;
-    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -87,7 +66,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(springSocialConfigurer).and()
 
                 .rememberMe()                                             //配置记住我功能
-                    .tokenRepository(persistentTokenRepository())
+                    .tokenRepository(persistentTokenRepository)
                     .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
                     .userDetailsService(userDetailsService)
                     .and()
@@ -97,6 +76,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                     .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
                     .expiredSessionStrategy(sessionInformationExpiredStrategy)
                     .and().and()
+                .logout()
+                    .logoutUrl("/signOut")
+                    .logoutSuccessHandler(shieldLogoutSuccessHandler)
+                    .deleteCookies("JSESSIONID").and()
+
                 .authorizeRequests()
                     .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                             SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
@@ -104,7 +88,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                             SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
                             securityProperties.getBrowser().getSignInPage(),
                             securityProperties.getBrowser().getSignUpUrl(),
-                            "/session/invalid",
+                            securityProperties.getBrowser().getSession().getSessionInvalidUrl(),
+                            securityProperties.getBrowser().getSignOutUrl(),
                             "/user/regist").permitAll()    // 当访问matchers页面时允许通过。
                     .anyRequest()           // 所有的请求
                     .authenticated()        // 都需要验证

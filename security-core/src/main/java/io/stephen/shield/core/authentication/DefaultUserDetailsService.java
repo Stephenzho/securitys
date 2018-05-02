@@ -25,7 +25,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.springframework.security.core.userdetails.UserDetailsService#
+	 * @see org.springframework.security.code.userdetails.UserDetailsService#
 	 * loadUserByUsername(java.lang.String)
 	 */
 	@Override

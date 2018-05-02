@@ -4,8 +4,8 @@
 package io.stephen.shield.browser.session;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.stephen.shield.browser.support.SimpleResponse;
 import io.stephen.shield.core.properties.SecurityProperties;
+import io.stephen.shield.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

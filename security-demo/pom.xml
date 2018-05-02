@@ -31,12 +31,16 @@
     </build>
 
     <dependencies>
-        <dependency>
+       <!-- <dependency>
             <groupId>io.stephen.shield</groupId>
             <artifactId>shield-browser</artifactId>
             <version>${shield.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>io.stephen.shield</groupId>
+            <artifactId>shield-app</artifactId>
+            <version>${shield.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

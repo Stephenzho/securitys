@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 
 /**
@@ -19,6 +23,9 @@ public class ValidateCodeBeanConfig {
 
     @Autowired
     private SecurityProperties securityProperties;
+
+    @Autowired
+    private DataSource dataSource;
 
     /**
      * 图片验证码图片生成器
@@ -44,5 +51,17 @@ public class ValidateCodeBeanConfig {
     @ConditionalOnMissingBean(SmsCodeSender.class)
     public SmsCodeSender smsCodeSender() {
         return new DefaultSmsCodeSender();
+    }
+
+    /**
+     * 记住我功能配置
+     * @return
+     */
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        //    jdbcTokenRepository.setCreateTableOnStartup(true);        // 第一次启动时创建表。再次启动时注掉
+        return jdbcTokenRepository;
     }
 }

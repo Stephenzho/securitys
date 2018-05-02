@@ -32,7 +32,7 @@ public class SessionValidateCodeRepository implements ValidateCodeRepository {
 	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
 	/* (non-Javadoc)
-	 * @see io.stephen.shield.core.validate.code.ValidateCodeRepository#save(org.springframework.web.context.request.ServletWebRequest, io.stephen.shield.core.validate.code.ValidateCode, io.stephen.shield.core.validate.code.ValidateCodeType)
+	 * @see io.stephen.shield.code.validate.code.ValidateCodeRepository#save(org.springframework.web.context.request.ServletWebRequest, io.stephen.shield.code.validate.code.ValidateCode, io.stephen.shield.code.validate.code.ValidateCodeType)
 	 */
 	@Override
 	public void save(ServletWebRequest request, ValidateCode code, ValidateCodeType validateCodeType) {
@@ -50,7 +50,7 @@ public class SessionValidateCodeRepository implements ValidateCodeRepository {
 	}
 
 	/* (non-Javadoc)
-	 * @see io.stephen.shield.core.validate.code.ValidateCodeRepository#get(org.springframework.web.context.request.ServletWebRequest, io.stephen.shield.core.validate.code.ValidateCodeType)
+	 * @see io.stephen.shield.code.validate.code.ValidateCodeRepository#get(org.springframework.web.context.request.ServletWebRequest, io.stephen.shield.code.validate.code.ValidateCodeType)
 	 */
 	@Override
 	public ValidateCode get(ServletWebRequest request, ValidateCodeType validateCodeType) {
@@ -58,7 +58,7 @@ public class SessionValidateCodeRepository implements ValidateCodeRepository {
 	}
 
 	/* (non-Javadoc)
-	 * @see io.stephen.shield.core.validate.code.ValidateCodeRepository#remove(org.springframework.web.context.request.ServletWebRequest, io.stephen.shield.core.validate.code.ValidateCodeType)
+	 * @see io.stephen.shield.code.validate.code.ValidateCodeRepository#remove(org.springframework.web.context.request.ServletWebRequest, io.stephen.shield.code.validate.code.ValidateCodeType)
 	 */
 	@Override
 	public void remove(ServletWebRequest request, ValidateCodeType codeType) {

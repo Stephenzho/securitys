@@ -1,9 +1,9 @@
 package io.stephen.shield.browser;
 
-import io.stephen.shield.browser.support.SimpleResponse;
 import io.stephen.shield.browser.support.SocialUserInfo;
 import io.stephen.shield.core.properties.SecurityConstants;
 import io.stephen.shield.core.properties.SecurityProperties;
+import io.stephen.shield.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,6 @@ import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.ProviderSignInUtils;
-import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -94,7 +93,7 @@ public class BrowserSecurityController {
         return socialUserInfo;
     }
 
-    @GetMapping("/session/invalid")
+    @GetMapping(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
     public SimpleResponse sessionInvalid(){
         String message = "session失效";
         return new SimpleResponse(message);

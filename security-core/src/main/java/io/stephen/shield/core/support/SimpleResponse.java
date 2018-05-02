@@ -1,4 +1,4 @@
-package io.stephen.shield.browser.support;
+package io.stephen.shield.core.support;
 
 /**
  * 相应包装类

@@ -35,9 +35,9 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	@Autowired
-	private PersistentTokenRepository persistentTokenRepository;
+	public PersistentTokenRepository persistentTokenRepository;
 	
 	/* (non-Javadoc)
 	 * @see org.springframework.security.config.annotation.SecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.SecurityBuilder)
