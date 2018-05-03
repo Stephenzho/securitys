@@ -1,6 +1,3 @@
-/**
- * 
- */
 package io.stephen.shield.core.authentication.mobile;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +40,7 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
 	 * @see org.springframework.security.config.annotation.SecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.SecurityBuilder)
 	 */
 	@Override
-	public void configure(HttpSecurity http) throws Exception {
+	public void configure(HttpSecurity http) {
 		
 		SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
 		smsCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));

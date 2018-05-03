@@ -1,4 +1,4 @@
-package io.stephen.shield.browser.authentication;
+package io.stephen.shield.app.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.stephen.shield.core.properties.LoginType;
