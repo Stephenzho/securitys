@@ -56,6 +56,7 @@ public class ShieldResourceServerConfig  extends ResourceServerConfigurerAdapter
                 .failureHandler(shieldAuthenticationFailureHandler);
 
         http.apply(validateCodeSecurityConfig).and()
+
                 .apply(openIdAuthenticationSecurityConfig).and()
 
                 .apply(smsCodeAuthenticationSecurityConfig).and()

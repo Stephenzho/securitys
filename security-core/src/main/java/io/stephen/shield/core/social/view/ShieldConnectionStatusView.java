@@ -1,4 +1,4 @@
-package io.stephen.shield.core.social;
+package io.stephen.shield.core.social.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.CollectionUtils;

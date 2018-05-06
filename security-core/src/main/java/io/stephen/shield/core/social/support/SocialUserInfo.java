@@ -1,4 +1,4 @@
-package io.stephen.shield.browser.support;
+package io.stephen.shield.core.social.support;
 
 /**
  * @author zhoushuyi

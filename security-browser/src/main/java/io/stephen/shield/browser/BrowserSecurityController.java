@@ -1,8 +1,8 @@
 package io.stephen.shield.browser;
 
-import io.stephen.shield.browser.support.SocialUserInfo;
 import io.stephen.shield.core.properties.SecurityConstants;
 import io.stephen.shield.core.properties.SecurityProperties;
+import io.stephen.shield.core.social.support.SocialUserInfo;
 import io.stephen.shield.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

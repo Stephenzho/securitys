@@ -1,4 +1,4 @@
-package io.stephen.shield.core.social;
+package io.stephen.shield.core.social.view;
 
 import org.springframework.web.servlet.view.AbstractView;
 

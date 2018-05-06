@@ -1,6 +1,8 @@
 package io.stephen.shield.core.social;
 
 import io.stephen.shield.core.properties.SecurityProperties;
+import io.stephen.shield.core.social.support.ShieldSpringSocialConfigurer;
+import io.stephen.shield.core.social.support.SocialAuthenticationFilterPostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +37,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required = false)
     private ConnectionSignUp connectionSignUp;
 
+    @Autowired(required = false)
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
@@ -52,6 +57,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
         String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
         ShieldSpringSocialConfigurer shieldSpringSocialConfigurer = new ShieldSpringSocialConfigurer(filterProcessesUrl);
         shieldSpringSocialConfigurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
+        shieldSpringSocialConfigurer.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
         return shieldSpringSocialConfigurer;
     }
 
