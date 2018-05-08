@@ -41,7 +41,7 @@ public class UserController {
 
 
     @GetMapping("/me")
-    public Object getCurrentUser(@AuthenticationPrincipal UserDetails user)  {
+    public Object getCurrentUser(Authentication user)  {
 
         return user;
     }

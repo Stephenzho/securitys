@@ -52,7 +52,7 @@ public class ShieldAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     @SuppressWarnings("unchecked")
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) throws IOException, ServletException {
+                                        Authentication authentication) throws IOException {
 
         logger.info("登录成功");
 
