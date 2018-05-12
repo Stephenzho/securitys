@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 核心模块的授权配置提供器，安全模块涉及的url的授权配置在这里。
  *
@@ -25,13 +28,32 @@ public class ShieldAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
     @Override
     public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
-        config.antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+        String[] urls ;
+
+        String signUpUrl = securityProperties.getBrowser().getSignUpUrl();
+        if (StringUtils.isNotEmpty(signUpUrl)){
+            urls = new String[]{SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                 SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
                 SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_OPENID,
                 SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
                 securityProperties.getBrowser().getSignInPage(),
-                securityProperties.getBrowser().getSignUpUrl(),
-                securityProperties.getBrowser().getSession().getSessionInvalidUrl())
+                securityProperties.getBrowser().getSession().getSessionInvalidUrl(),
+                signUpUrl
+            };
+        }else{
+            urls = new String[]{
+                SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_OPENID,
+                SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
+                securityProperties.getBrowser().getSignInPage(),
+                securityProperties.getBrowser().getSession().getSessionInvalidUrl()
+            };
+        }
+
+
+
+        config.antMatchers(urls)
                 .permitAll();
 
         if (StringUtils.isNotBlank(securityProperties.getBrowser().getSignOutUrl())) {

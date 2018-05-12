@@ -43,7 +43,7 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.info(username+" 表单登陆用户");
+        logger.info(username+" 获取用户信息");
 
         /*
           返回的是查询出来的用户信息，此信息的password会与请求中的密码比对。此时库中密码为1111

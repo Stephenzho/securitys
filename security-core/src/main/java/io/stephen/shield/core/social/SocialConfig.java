@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
@@ -40,6 +41,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required = false)
     private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
 
+    @Autowired
+    protected AuthenticationFailureHandler shieldAuthenticationFailureHandler;
+
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
@@ -55,8 +59,11 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Bean
     public SpringSocialConfigurer shieldSocialSecurityConfig() {
         String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
+        String signUpUrl = securityProperties.getBrowser().getSignUpUrl();
+
         ShieldSpringSocialConfigurer shieldSpringSocialConfigurer = new ShieldSpringSocialConfigurer(filterProcessesUrl);
-        shieldSpringSocialConfigurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
+        shieldSpringSocialConfigurer.signupUrl(signUpUrl);
+
         shieldSpringSocialConfigurer.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
         return shieldSpringSocialConfigurer;
     }

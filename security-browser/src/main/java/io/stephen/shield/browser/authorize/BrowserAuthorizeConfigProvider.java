@@ -1,6 +1,9 @@
 package io.stephen.shield.browser.authorize;
 
 import io.stephen.shield.core.authorize.AuthorizeConfigProvider;
+import io.stephen.shield.core.properties.SecurityConstants;
+import io.stephen.shield.core.properties.SecurityProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +25,9 @@ public class BrowserAuthorizeConfigProvider implements AuthorizeConfigProvider {
     @Override
     public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config.antMatchers(HttpMethod.GET,
+                SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,  //表单登陆请求url
+
+
                 "/**/*.js",
                 "/**/*.css",
                 "/**/*.jpg",

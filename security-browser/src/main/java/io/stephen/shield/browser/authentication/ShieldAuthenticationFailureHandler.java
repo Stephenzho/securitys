@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.social.security.SocialAuthenticationRedirectException;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -35,9 +36,15 @@ public class ShieldAuthenticationFailureHandler  extends SimpleUrlAuthentication
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        if (exception instanceof SocialAuthenticationRedirectException) {
+            response.sendRedirect(((SocialAuthenticationRedirectException) exception).getRedirectUrl());
+            return;
+        }
+
         logger.info("登陆失败");
 
         if (LoginResponseType.JSON.equals(securityProperties.getBrowser().getSignInPage())){
+
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
