@@ -36,4 +36,12 @@ public class ShieldSpringSocialConfigurer extends SpringSocialConfigurer {
     public void setSocialAuthenticationFilterPostProcessor(SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor) {
         this.socialAuthenticationFilterPostProcessor = socialAuthenticationFilterPostProcessor;
     }
+
+    public String getFilterProcessesUrl() {
+        return filterProcessesUrl;
+    }
+
+    public void setFilterProcessesUrl(String filterProcessesUrl) {
+        this.filterProcessesUrl = filterProcessesUrl;
+    }
 }

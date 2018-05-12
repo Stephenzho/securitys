@@ -1,7 +1,7 @@
 package io.stephen.shield.app.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.stephen.shield.core.properties.LoginType;
+import io.stephen.shield.core.properties.LoginResponseType;
 import io.stephen.shield.core.properties.SecurityProperties;
 import io.stephen.shield.core.support.SimpleResponse;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ public class ShieldAuthenticationFailureHandler  extends SimpleUrlAuthentication
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         logger.info("登陆失败");
 
-        if (LoginType.JSON.equals(securityProperties.getBrowser().getSignInPage())){
+        if (LoginResponseType.JSON.equals(securityProperties.getBrowser().getSignInPage())){
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));

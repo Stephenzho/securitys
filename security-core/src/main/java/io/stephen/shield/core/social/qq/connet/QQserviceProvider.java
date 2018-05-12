@@ -14,13 +14,10 @@ public class QQserviceProvider extends AbstractOAuth2ServiceProvider<QQ> {
     private static final String URL_ACCESS_TOKEN = "https://graph.qq.com/oauth2.0/token";
 
     private String appId;
-    /**
-     * Create a new {@link OAuth2ServiceProvider}.
-     *
-     * @param oauth2Operations the OAuth2Operations template for conducting the OAuth 2 flow with the provider.
-     */
+
+
     public QQserviceProvider(String appId, String appSecret) {
-        super(new QQOAuth2Template(appId,appSecret,URL_AUTHORIZE,URL_ACCESS_TOKEN));
+        super(new QQOAuth2Template(appId, appSecret, URL_AUTHORIZE, URL_ACCESS_TOKEN));
         setAppId(appId);
     }
 

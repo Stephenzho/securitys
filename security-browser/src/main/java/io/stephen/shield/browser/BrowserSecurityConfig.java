@@ -2,6 +2,7 @@ package io.stephen.shield.browser;
 
 import io.stephen.shield.core.authentication.FormAuthenticationConfig;
 import io.stephen.shield.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import io.stephen.shield.core.authorize.AuthorizeConfigManager;
 import io.stephen.shield.core.properties.SecurityConstants;
 import io.stephen.shield.core.properties.SecurityProperties;
 import io.stephen.shield.core.validate.code.ValidateCodeSecurityConfig;
@@ -52,6 +53,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public PersistentTokenRepository persistentTokenRepository;
 
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
 
 
     @Override
@@ -80,21 +83,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutUrl("/signOut")
                     .logoutSuccessHandler(shieldLogoutSuccessHandler)
                     .deleteCookies("JSESSIONID").and()
-
-                .authorizeRequests()
-                    .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-                            SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE,
-                            SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,
-                            SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
-                            securityProperties.getBrowser().getSignInPage(),
-                            securityProperties.getBrowser().getSignUpUrl(),
-                            securityProperties.getBrowser().getSession().getSessionInvalidUrl(),
-                            securityProperties.getBrowser().getSignOutUrl(),
-                            "/user/regist").permitAll()    // 当访问matchers页面时允许通过。
-                    .anyRequest()           // 所有的请求
-                    .authenticated()        // 都需要验证
-                    .and()
                 .csrf().disable();      //关闭csrf
+
+        authorizeConfigManager.config(http.authorizeRequests());
 
     }
 }

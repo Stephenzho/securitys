@@ -7,7 +7,6 @@ import io.stephen.shield.core.properties.SecurityProperties;
 import org.springframework.security.web.session.SessionInformationExpiredEvent;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
-import javax.servlet.ServletException;
 import java.io.IOException;
 
 /**
@@ -26,7 +25,7 @@ public class ShieldExpiredSessionStrategy extends AbstractSessionStrategy implem
 	 * @see org.springframework.security.web.session.SessionInformationExpiredStrategy#onExpiredSessionDetected(org.springframework.security.web.session.SessionInformationExpiredEvent)
 	 */
 	@Override
-	public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
+	public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException {
 		onSessionInvalid(event.getRequest(), event.getResponse());
 	}
 	

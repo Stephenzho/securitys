@@ -1,4 +1,4 @@
-package io.stephen.shield.app;
+package io.stephen.shield.server;
 
 import io.stephen.shield.core.properties.OAuth2ClientProperties;
 import io.stephen.shield.core.properties.SecurityProperties;

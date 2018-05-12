@@ -2,6 +2,7 @@ package io.stephen.shield.browser;
 
 import io.stephen.shield.core.properties.SecurityConstants;
 import io.stephen.shield.core.properties.SecurityProperties;
+import io.stephen.shield.core.social.SocialController;
 import io.stephen.shield.core.social.support.SocialUserInfo;
 import io.stephen.shield.core.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
@@ -27,11 +28,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 浏览器环境下与安全相关的服务
+ *
  * @author zhoushuyi
  * @since 2018/4/22
  */
 @RestController
-public class BrowserSecurityController {
+public class BrowserSecurityController extends SocialController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -82,21 +85,16 @@ public class BrowserSecurityController {
     }
 
 
+    /**
+     * 用户第一次社交登录时，会引导用户进行用户注册或绑定，此服务用于在注册或绑定页面获取社交网站用户信息
+     *
+     * @param request
+     * @return
+     */
     @GetMapping(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
     public SocialUserInfo getSocialUserInfo(HttpServletRequest request) {
-        SocialUserInfo socialUserInfo = new SocialUserInfo();
-        Connection<?> connection =  providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
-        socialUserInfo.setProviderId(connection.getKey().getProviderId());
-        socialUserInfo.setNickname(connection.getDisplayName());
-        socialUserInfo.setProviderUserId(connection.getKey().getProviderUserId());
-        socialUserInfo.setHeadimg(connection.getImageUrl());
-        return socialUserInfo;
-    }
-
-    @GetMapping(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
-    public SimpleResponse sessionInvalid(){
-        String message = "session失效";
-        return new SimpleResponse(message);
+        Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
+        return buildSocialUserInfo(connection);
     }
 
 

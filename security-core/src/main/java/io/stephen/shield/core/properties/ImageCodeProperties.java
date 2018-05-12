@@ -4,23 +4,21 @@ package io.stephen.shield.core.properties;
  * @author zhoushuyi
  * @since 2018/4/29
  */
-public class ImageCodeProperties {
+public class ImageCodeProperties extends SmsCodeProperties{
 
+    public ImageCodeProperties() {
+        setLength(4);
+    }
+
+    /**
+     * 图片宽
+     */
     private int width = 67;
+    /**
+     * 图片高
+     */
     private int height = 23;
-    private int length = 4;
-    private int expireIn = 40;
 
-    private String url ;
-
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public int getWidth() {
         return width;
@@ -36,33 +34,5 @@ public class ImageCodeProperties {
 
     public void setHeight(int height) {
         this.height = height;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public int getExpireIn() {
-        return expireIn;
-    }
-
-    public void setExpireIn(int expireIn) {
-        this.expireIn = expireIn;
-    }
-
-
-    @Override
-    public String toString() {
-        return "ImageCodeProperties{" +
-                "width=" + width +
-                ", height=" + height +
-                ", length=" + length +
-                ", expireIn=" + expireIn +
-                ", url='" + url + '\'' +
-                '}';
     }
 }
