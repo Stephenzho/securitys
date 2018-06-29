@@ -15,6 +15,12 @@
         <module>../security-authorize</module>
     </modules>
 
+    <developers>
+        <developer>
+            <name>zhoushuyi</name>
+            <url>https://github.com/Stephenzho</url>
+        </developer>
+    </developers>
     <properties>
         <shield.version>1.0-SNAPSHOT</shield.version>
     </properties>
